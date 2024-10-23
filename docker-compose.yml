@@ -1,0 +1,25 @@
+version: '3'
+services:
+  pyspark:
+    image: jupyter/pyspark-notebook:latest
+    container_name: pyspark_container
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./work:/home/jovyan/work
+      - ./cloud-macro-tim-2623594ed8c4.json:/home/jovyan/cloud-macro-tim-2623594ed8c4.json
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+      - PYSPARK_PYTHON=python3
+      - PYSPARK_DRIVER_PYTHON=jupyter
+      - PYSPARK_DRIVER_PYTHON_OPTS=lab --ip=0.0.0.0 --allow-root
+      - JUPYTER_ENABLE_LAB=yes
+      - JUPYTER_TOKEN= # Deixe vazio  # Adicione esta linha
+      - JAVA_OPTS=-Xms512m -Xmx2g  # Adicione esta linha
+      - SPARK_EXTRA_JAVA_OPTIONS="-Dgoogle.cloud.auth.service.account.enable=true"
+    command: >
+      bash -c "pip install google-cloud-bigquery google-cloud-storage && start-notebook.sh"
+
+
+
+      
